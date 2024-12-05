@@ -35,8 +35,8 @@ public class HomeController {
     }
     
     // DELETE
-    @DeleteMapping
-    public String delete() {
-        return "Something was deleted";
+    @DeleteMapping("/{id}")
+    public Message delete(@PathVariable Long id) {
+        return new Message(id, "Deleted");
     }
 }
