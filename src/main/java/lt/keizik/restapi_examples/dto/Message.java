@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class CreatedMessage {
+public class Message {
     private long id;
     private String response;
 }
