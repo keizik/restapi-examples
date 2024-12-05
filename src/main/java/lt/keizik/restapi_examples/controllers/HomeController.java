@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import lt.keizik.restapi_examples.dto.CreatedMessage;
 import lt.keizik.restapi_examples.dto.MessageForm;
 
 @RestController
@@ -18,8 +19,8 @@ public class HomeController {
 
     // POST
     @PostMapping
-    public String create(@RequestBody MessageForm form) {
-        return form.getMessage();
+    public CreatedMessage create(@RequestBody MessageForm form) {
+        return new CreatedMessage(1L, form.getMessage());
     }
     
     // PUT
