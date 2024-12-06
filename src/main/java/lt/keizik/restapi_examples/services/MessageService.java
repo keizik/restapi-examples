@@ -1,5 +1,6 @@
 package lt.keizik.restapi_examples.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -13,12 +14,19 @@ import lt.keizik.restapi_examples.repositories.MessageRepository;
 public class MessageService {
     private final MessageRepository messageRepository;
 
+    public List<Message> getAllMessages() {
+        var messages = new ArrayList<Message>();
+        messageRepository.findAll().forEach(messages::add);
+        return messages;
+    }
+
     public Message createMessage(String message) {
         if (message == null) {
             throw new RuntimeException("message should not be null");
         }
-
-        return new Message(1L, message);
+        var messageModel = new Message();
+        messageModel.setMessage(message);
+        return messageRepository.save(messageModel);
     }
 
     public Message updateMessage(String id, List<String> messages) {
@@ -30,9 +38,8 @@ public class MessageService {
         if (message.isPresent()) {
             var messageModel = message.get();
             messageModel.setMessage(messages.get(1));
-            messageRepository.save(messageModel);
-            return messageModel;
-        } 
+            return messageRepository.save(messageModel);
+        }
         throw new RuntimeException(String.format("Message with id {} not found", id));
     }
 

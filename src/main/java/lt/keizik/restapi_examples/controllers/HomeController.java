@@ -1,5 +1,7 @@
 package lt.keizik.restapi_examples.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,9 +27,9 @@ public class HomeController {
     private final MessageService messageService;
 
     @GetMapping
-    @Operation(description = "Home page info", summary = "Home page info")
-    public String getHomePage() {
-        return "This is home page";
+    @Operation(description = "All the messages", summary = "Get all messages")
+    public List<Message> getMessages() {
+        return messageService.getAllMessages();
     }
 
     // POST
