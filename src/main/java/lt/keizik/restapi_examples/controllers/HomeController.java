@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,7 +29,7 @@ public class HomeController {
 
     @GetMapping
     @Operation(description = "All the messages", summary = "Get all messages")
-    public List<Message> getMessages() {
+    public List<Message> getMessages(@RequestParam String filter) {
         return messageService.getAllMessages();
     }
 
@@ -50,6 +51,6 @@ public class HomeController {
     @DeleteMapping("/{id}")
     @Operation(description = "Delete a message", summary = "Delete a message")
     public Message delete(@PathVariable @Parameter(description = "Id of a message", example = "1") Long id) {
-        return new Message(id, "Deleted");
+        return messageService.deleteMessage(id);
     }
 }
