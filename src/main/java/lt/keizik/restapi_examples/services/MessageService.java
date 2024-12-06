@@ -4,10 +4,14 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import lombok.RequiredArgsConstructor;
 import lt.keizik.restapi_examples.models.Message;
+import lt.keizik.restapi_examples.repositories.MessageRepository;
 
 @Service
+@RequiredArgsConstructor
 public class MessageService {
+    private final MessageRepository messageRepository;
 
     public Message createMessage(String message) {
         if (message == null) {
@@ -22,9 +26,14 @@ public class MessageService {
             throw new RuntimeException("at least 2 messages should be available");
         }
 
-        var message = new Message(Long.valueOf(id), "Old message");
-        message.setMessage(messages.get(1));
-        return message;
+        var message = messageRepository.findById(Long.valueOf(id));
+        if (message.isPresent()) {
+            var messageModel = message.get();
+            messageModel.setMessage(messages.get(1));
+            messageRepository.save(messageModel);
+            return messageModel;
+        } 
+        throw new RuntimeException(String.format("Message with id {} not found", id));
     }
 
 }
